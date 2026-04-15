@@ -1,14 +1,14 @@
 # System Architecture & Observability Implementation 
 *(Transcendence Showcase Repository)*
 
-## 📌 Executive Summary
+## Executive Summary
 This repository serves as a technical showcase of a high-performance, distributed backend architecture. While the user-facing application is a real-time multiplayer chess platform, the core engineering focus of this project lies in its **infrastructure, strict data governance, and advanced observability**. 
 
 It demonstrates production-ready patterns relevant to **Data Engineering and MLOps**, particularly in handling high-frequency streaming data, separating transactional from analytical workloads, and ensuring ACID compliance across a distributed stack.
 
 ---
 
-## 🏗️ 1. System Design & The Asynchronous Data Bridge
+## 1. System Design & The Asynchronous Data Bridge
 Handling real-time gaming data introduces significant concurrency and latency challenges. Writing every move or timer tick directly to a relational database would create massive bottlenecking. To resolve this, I implemented an asynchronous, decoupled data bridge.
 
 * **High-Frequency Ingestion (Redis):** The system relies on Redis as a low-latency, in-memory datastore to manage active game states. All real-time WebSocket events (moves, time degradation) are processed asynchronously via Django Channels and mutated directly in Redis.
@@ -21,7 +21,7 @@ This architecture closely mirrors **streaming data pipelines**, where high-veloc
 
 ---
 
-## 🔍 2. Advanced Computational Offloading (Elasticsearch)
+## 2. Advanced Computational Offloading (Elasticsearch)
 In typical architectures, Elasticsearch is relegated strictly to log searching. In this system, I elevated Elasticsearch to a **primary computational engine**, explicitly adopting a **CQRS (Command Query Responsibility Segregation)** pattern.
 
 Instead of writing complex, expensive `GROUP BY` SQL queries to extract analytics from PostgreSQL's JSONB arrays, the analytical workload is entirely offloaded to the Elasticsearch cluster.
@@ -35,7 +35,7 @@ By isolating analytical heavy lifting into Elasticsearch, the primary PostgreSQL
 
 ---
 
-## 📊 3. Observability Excellence (The ELK Pipeline)
+## 3. Observability Excellence (The ELK Pipeline)
 A distributed system is inherently a black box without comprehensive telemetry. I deployed the **ELK Stack (Elasticsearch, Logstash, Kibana)** to guarantee full system observability and establish a rapid feedback loop.
 
 * **Structured Logging:** The Python backend outputs highly structured, context-rich logs (e.g., precise move latency in milliseconds, indexing statuses, connection drops). 
@@ -44,7 +44,7 @@ A distributed system is inherently a black box without comprehensive telemetry. 
 
 ---
 
-## 💼 4. Professional Value: Preparedness for MLOps & Data Engineering
+## 4. Professional Value: Preparedness for MLOps & Data Engineering
 Building and optimizing this architecture directly translates to the core requirements of modern Data Engineering and MLOps roles:
 
 1. **Pipeline Reliability:** Navigating the complexities of transferring state safely between Redis (volatile) and Postgres (persistent) demonstrates a robust understanding of fault-tolerant data pipelines.
